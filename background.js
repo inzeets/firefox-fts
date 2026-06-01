@@ -1,10 +1,11 @@
 
 let ftsWindowId;
 let creating = false;
+let ftsTabs;
 
 function main() {
 	browser.commands.onCommand.addListener(proceedCommand);
-	browser.browserAction.onClicked.addListener(openFtsWindow);
+	browser.action.onClicked.addListener(openFtsWindow);
 
 	browser.windows.onFocusChanged.addListener(onFocusChanged);
 	browser.windows.onRemoved.addListener(onWindowRemoved);
@@ -26,6 +27,11 @@ async function openFtsWindow() {
 	const left = Math.round((screen.availWidth - width) / 2 * dpr);
 	const top = Math.round((screen.availHeight - height) / 2 * dpr);
 
+	// Pre-fetch tabs so the switcher page can render its list on first paint
+	// (avoids the window appearing empty and then populating).
+	const allTabs = await browser.tabs.query({windowType: 'normal'});
+	ftsTabs = allTabs.sort((a, b) => b.lastAccessed - a.lastAccessed);
+
 	creating = true;
 	const win = await browser.windows.create({
 		height: height,
@@ -33,7 +39,7 @@ async function openFtsWindow() {
 		left: left,
 		top: top,
 		type: 'popup',
-		url: browser.extension.getURL('tab_switcher/switcher.html'),
+		url: browser.runtime.getURL('tab_switcher/switcher.html'),
 		allowScriptsToClose: true,
 	});
 	ftsWindowId = win.id;

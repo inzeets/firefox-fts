@@ -1,43 +1,40 @@
 {
-	"applications" : {
-		"gecko" : {
-			"id" : "tabswitcher@InZ"
+	"manifest_version": 3,
+	"name": "InZ - Fast Tab Switcher",
+	"version": "2.2.0.1",
+	"author": "In Zee",
+	"permissions": ["tabs"],
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "tabswitcher@InZ",
+			"strict_min_version": "134.0",
+			"update_url": "https://github.com/inzeets/ff/raw/refs/heads/main/ext/updates.json",
+			"data_collection_permissions": {
+				"required": ["none"]
+			}
 		}
 	},
-
-	"background" : {
-		"scripts" : ["background.js"]
+	"background": {
+		"scripts": ["background.js"]
 	},
-
-	"browser_action" : {
-		"default_icon" : "icons/icon64.png",
-		"default_title" : "Open \"Fast Tab Switcher\" window"
+	"action": {
+		"default_icon": "icons/icon64.png",
+		"default_title": "Open \"Fast Tab Switcher\" window"
 	},
-
 	"options_ui": {
 		"page": "options/options.html"
 	},
-
-	"commands" : {
-		"open-fts" : {
-			"suggested_key" : {
-				"mac" : "MacCtrl+Space",
-				"default" : "Alt+X"
+	"commands": {
+		"open-fts": {
+			"suggested_key": {
+				"mac": "MacCtrl+Space",
+				"default": "Alt+X"
 			},
-			"description" : "Open \"Fast Tab Switcher\" window"
+			"description": "Open \"Fast Tab Switcher\" window"
 		}
 	},
-
-	"icons" : {
-		"32" : "icons/icon.png",
-		"64" : "icons/icon64.png"
-	},
-
-	"manifest_version" : 2,
-
-	"name" : "InZ - Fast Tab Switcher",
-
-	"permissions" : ["tabs", "<all_urls>"],
-
-	"version" : "2.2.0"
+	"icons": {
+		"32": "icons/icon.png",
+		"64": "icons/icon64.png"
+	}
 }
