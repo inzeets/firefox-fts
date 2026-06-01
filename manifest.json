@@ -1,7 +1,7 @@
 {
 	"applications" : {
 		"gecko" : {
-			"id" : "tabswitcher@volinsky.net"
+			"id" : "tabswitcher@InZ"
 		}
 	},
 
@@ -21,8 +21,8 @@
 	"commands" : {
 		"open-fts" : {
 			"suggested_key" : {
-				"default" : "Ctrl+Space",
-				"mac" : "MacCtrl+Space"
+				"mac" : "MacCtrl+Space",
+				"default" : "Alt+X"
 			},
 			"description" : "Open \"Fast Tab Switcher\" window"
 		}
@@ -35,7 +35,7 @@
 
 	"manifest_version" : 2,
 
-	"name" : "Fast Tab Switcher",
+	"name" : "InZ - Fast Tab Switcher",
 
 	"permissions" : ["tabs", "<all_urls>"],
 

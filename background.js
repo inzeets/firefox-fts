@@ -1,5 +1,6 @@
 
 let ftsWindowId;
+let creating = false;
 
 function main() {
 	browser.commands.onCommand.addListener(proceedCommand);
@@ -19,20 +20,28 @@ async function openFtsWindow() {
 	const height = 500;
 	const width = 1000;
 
+	// windows.create takes left/top in device pixels but width/height in CSS
+	// pixels, so scale the position by devicePixelRatio to center on HiDPI.
+	const dpr = window.devicePixelRatio;
+	const left = Math.round((screen.availWidth - width) / 2 * dpr);
+	const top = Math.round((screen.availHeight - height) / 2 * dpr);
+
+	creating = true;
 	const win = await browser.windows.create({
 		height: height,
 		width: width,
-		left: screen.width / 2 - width / 2,
-		top: screen.height / 2 - height / 2,
+		left: left,
+		top: top,
 		type: 'popup',
 		url: browser.extension.getURL('tab_switcher/switcher.html'),
 		allowScriptsToClose: true,
 	});
-
 	ftsWindowId = win.id;
+	creating = false;
 }
 
 function onFocusChanged(windowId) {
+	if (creating) return;
 	if (ftsWindowId && windowId !== ftsWindowId) {
 		browser.windows.remove(ftsWindowId);
 	}
