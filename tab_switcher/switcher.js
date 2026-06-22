@@ -8,7 +8,7 @@ const searchInput = document.getElementById('search_input');
 
 async function reloadTabs(query) {
 	if (allTabsSorted === undefined) {
-		allTabsSorted = await browser.runtime.sendMessage({type: 'get-tabs'});
+		allTabsSorted = await browser.runtime.sendMessage({ type: 'get-tabs' });
 	}
 
 	let tabs = allTabsSorted;
@@ -93,9 +93,7 @@ window.addEventListener('keydown', event => {
 });
 
 async function closeSelectedTab() {
-	if (!selectedRow) {
-		return;
-	}
+	if (!selectedRow) return;
 
 	const tabId = Number(selectedRow.dataset.tabId);
 	const index = getSelectedString();
@@ -139,14 +137,12 @@ function getSelectedString() {
 }
 
 async function activateTab() {
-	if (!selectedRow) {
-		return;
-	}
+	if (!selectedRow) return;
 
 	const tabId = Number(selectedRow.dataset.tabId);
 
-	await browser.tabs.update(tabId, {active: true});
+	await browser.tabs.update(tabId, { active: true });
 
 	const tab = await browser.tabs.get(tabId);
-	await browser.windows.update(tab.windowId, {focused: true});
+	await browser.windows.update(tab.windowId, { focused: true });
 }
