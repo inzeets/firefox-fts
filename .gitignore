@@ -4,3 +4,6 @@
 !icons/
 !options/
 !tab_switcher/
+!z_build.sh
+!z_sign.sh 
+!web-ext-config.cjs
