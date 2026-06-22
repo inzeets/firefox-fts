@@ -2,21 +2,13 @@
 let selectedRow;
 let allTabsSorted;
 
-// Use the tab list the background page pre-fetched before opening this window,
-// so the first render is synchronous (no empty-then-populate flash).
-const bg = browser.extension.getBackgroundPage();
-if (bg && bg.ftsTabs) {
-	allTabsSorted = bg.ftsTabs;
-}
-
 const tbody = document.querySelector('#tabs_table tbody');
 const container = document.getElementById('tabs_table__container');
 const searchInput = document.getElementById('search_input');
 
 async function reloadTabs(query) {
 	if (allTabsSorted === undefined) {
-		const allTabs = await browser.tabs.query({windowType: 'normal'});
-		allTabsSorted = allTabs.sort((a, b) => b.lastAccessed - a.lastAccessed);
+		allTabsSorted = await browser.runtime.sendMessage({type: 'get-tabs'});
 	}
 
 	let tabs = allTabsSorted;
@@ -71,9 +63,8 @@ tbody.addEventListener('dblclick', e => {
 	if (e.target.closest('tr')) activateTab();
 });
 
-reloadTabs();
+reloadTabs().then(() => searchInput.focus());
 
-searchInput.focus();
 searchInput.addEventListener('input', e => reloadTabs(e.target.value));
 
 window.addEventListener('keydown', event => {
